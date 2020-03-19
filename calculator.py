@@ -4,7 +4,6 @@ class Calculator:
         if (b is not None):
             self.b = b
 
-
     def sum(self):
         return self.a+self.b
     
