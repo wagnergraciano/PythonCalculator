@@ -1,39 +1,40 @@
-# class Calculator:
-#     def __init__(self, a ,b, op):
-#         self.a = a
-#         self.b = b
-#         self.op = op
+class Calculator:
+    def __init__(self, a,b= None):
+        self.a = a
+        if (b is not None):
+            self.b = b
 
-#     def sum(self,a,b):
-#         return a+b
+
+    def sum(self):
+        return self.a+self.b
     
-#     def sub(self,a,b):
-#         return a-b
+    def sub(self):
+        return self.a-self.b
     
-#     def mult(self,a,b):
-#         return a*b
+    def mult(self):
+        return self.a*self.b
 
-#     def div(self,a,b):
-#         return a/b
+    def div(self):
+        return self.a/self.b
 
-#     def mod(self,a,b):
-#         return a%b    
+    def mod(self):
+        return self.a%self.b    
     
-#     def exp(self,a,b):
-#         return a**b
+    def exp(self):
+        return self.a**self.b
 
-#     def med(self,a,b):
-#         return (a+b)/2
+    def med(self):
+        return (self.a+self.b)/2
 
-#     def fat(self,a):
-#         rst=1
-#         count=1
+    def fat(self):
+        rst=1
+        count=1
 
-#         while count <= a:
-#             rst *= count
-#             count += 1
+        while count <= self.a:
+            rst *= count
+            count += 1
 
-#         return rst
+        return rst
 
 op= input("Escolha a operacao de acordo com o menu -\n" 
         "1. Soma\n 2.Subtracao \n 3.divisao \n 4.Multiplicacao\n"
@@ -41,37 +42,34 @@ op= input("Escolha a operacao de acordo com o menu -\n"
 
 if op == 8:
     a = input("Digite o numero para calcular fatorial:")
-    rst=1
-    count=1
-    while count <= a:
-        rst *= count
-        count += 1
-
-    print(rst)
+    c = Calculator(a)
+    print(c.fat())
+    
 else:
     if op < 8 or op > 1:
         a = input("Digite o primeiro numero para o calculo:")
         b = input("Digite o segundo numero para o calculo:")
+        c = Calculator(a,b)
 
         if op == 1:
-            print(a+b)
+            print(c.sum())
         
         elif op == 2:
-            print(a-b)
+            print(c.sub())
     
         elif op == 3:
-            print(a/b)
+            print(c.div())
 
         elif op == 4:
-            print(a*b)
+            print(c.mult())
 
         elif op == 5:
-            print(a%b)
+            print(c.mod())
     
         elif op == 6:
-            print(a**b)
+            print(c.exp())
 
         else:
-            print((a+b)/2)
+            print(c.med())
     else:
         print("Numero de operacao invalida!")
