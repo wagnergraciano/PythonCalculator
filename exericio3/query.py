@@ -4,7 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Sequence
 from sqlalchemy import Column, Integer, String, DateTime, Float
 
-
 conn = create_engine("mysql://root:@localhost/desafio-dev-2020")
 Session = sessionmaker(bind=conn)
 Base = declarative_base()
@@ -21,19 +20,27 @@ class Empregado(Base):
 
     def __repr__(self):
         return "Empregado(id='%s', nome='%s', sexo='%s', idade= '%s', data_criacao= '%s', salario= '%s')" % (self.id, self.nome, self.sexo, self.idade, self.data_criacao ,self.salario)
-    
-session = Session()
-# estagiario = Empregado(nome= 'wagner', sexo= 'a', idade= '22', data_criacao='2020-03-19 02:19:12', salario= '2000')
-# session.add(estagiario)
-# session.commit()
 
+session = Session()
+# inserir
+c = Empregado(nome='outroTeste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
+session.add(c)
+session.commit()
+
+# retornar primeiro
 firstRegister = session.query(Empregado).first()
-findAll = session.query(Empregado).all()
-findAllByName = session.query(Empregado).filter_by(nome='teste2').all()
 print("Primeiro registro: ",firstRegister)
-print("Todos os registros:")
+
+# def retornarTodos():
+findAll = session.query(Empregado).all()
+empregadoList = []
 for employee in findAll:
-    print(employee,"\n")
-print("Buscar todos por nome: \n")
+    empregadoList.append(employee)
+print(empregadoList)
+
+# def encontrarPorNome(name):
+findAllByName = session.query(Empregado).filter_by(nome='wagner').all()
+listEmployee =[]
 for findName in findAllByName:
-    print(findName,"\n")
+    listEmployee.append(findName)
+print(listEmployee)
