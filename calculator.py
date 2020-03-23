@@ -14,6 +14,7 @@ class Calculator:
         return self.a*self.b
 
     def div(self):
+        # verficiar div por 0
         return self.a/self.b
 
     def mod(self):
@@ -39,6 +40,8 @@ op= input("Escolha a operacao de acordo com o menu -\n"
         "1. Soma\n 2.Subtracao \n 3.divisao \n 4.Multiplicacao\n"
         "5.Modulo\n 6.Exponenciacao 7.media entre dois valores \n 8.Fatorial \n") 
 
+# metodo calc para nao sobrecarregar com instancias(talvez singleton)
+# colocar while
 if op == 8:
     a = input("Digite o numero para calcular fatorial:")
     c = Calculator(a)

@@ -1,6 +1,6 @@
-from pessoa import Pessoa
+from .pessoa import Pessoa
 
 class Tecnico(Pessoa):
-    def __init__(self,experiencia):
+    def __init__(self,nome,idade,experiencia):
         super().__init__(nome,idade)
-    self.experiencia = experiencia
+        self.experiencia = experiencia
