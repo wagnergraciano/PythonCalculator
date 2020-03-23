@@ -30,15 +30,15 @@ def insert(employee):
     session.add(employee)
     session.commit()
 
+def updateName(id, newName):
+    user = session.query(Empregado).get(id)
+    user.nome = newName
+    session.commit()
+
 def delete(id):
     obj = session.query(Empregado).get(id)
     session.delete(obj)
     session.commit()
-
-insert(c1)
-def findFirst():
-    firstRegister = session.query(Empregado).first()
-    return firstRegister
 
 def retrieveAll():
     findAll = session.query(Empregado).all()
@@ -56,3 +56,7 @@ def findByName(name):
 
 def findByID(id):
     return session.query(Empregado).get(id)
+
+def findFirst():
+    firstRegister = session.query(Empregado).first()
+    return firstRegister
