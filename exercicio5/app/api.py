@@ -9,36 +9,26 @@ from sqlalchemy.orm import sessionmaker
 
 conn = create_engine("mysql://root:@localhost/desafio-dev-2020")
 Session = sessionmaker(bind=conn)
-session = Session()
 
 app = Flask(__name__)
 api = Api(app)
 
-# class EmpregadoAPIid(Resource):
-#     def get(self,elemento):
-#         if elemento in lista:
-#             return jsonify({'inlist': True})
-#         else:
-#             return jsonify({'inlist': False}) 
-
-#     def delete(self, elemento):
-#         if elemento in lista:
-#             lista.remove(elemento)
-#             return jsonify({'sucesso': True})
-#         else:
-#             return jsonify({'sucesso': False, 'mensagem':elemento+'nao esta na lista'}) 
-
 class EmpregadoAPI(Resource):
+    session = Session()
     def get(self):
         f = Empregado()
-        rst = f.retrieveAll(session)
-        rstJson = json.dumps(rst)
+        rst = f.retrieveAll(self.session)
+        rstJson = json.loads(json.dumps(rst))
         return jsonify(rst)
 
 class EmpregadoAPIid(Resource):
+    session = Session()
     def get(self,id):
-        if session.query(Empregado).get(id):
-            return jsonify({'inlist': True})
+        f = Empregado()
+        emp = f.findByID(self.session,id)
+        if emp:
+            empJson = json.loads(json.dumps(emp))
+            return jsonify({'inlist': True},empJson)
         else:
             return jsonify({'inlist': False}) 
 

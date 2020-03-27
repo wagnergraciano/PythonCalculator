@@ -20,8 +20,8 @@ class Empregado(Base):
         # return emp
         return "id='%s', nome='%s', sexo='%s', idade= '%s', data_criacao= '%s', salario= '%s'" % (self.id, self.nome, self.sexo, self.idade, self.data_criacao ,self.salario)
 
-    def dict(self):
-        emp = {'id': c.id, 'nome': c.nome, 'sexo': c.sexo, 'idade': c.idade, 'data_criacao': c.data_criacao, 'salario': c.salario}
+    def dict(self,c):
+        emp = {'id':c.id,'nome':c.nome,'sexo':c.sexo,'idade':c.idade,'data_criacao':c.data_criacao.isoformat(),'salario':c.salario}
         return emp
 
     def insert(self,session,employee):
@@ -42,7 +42,7 @@ class Empregado(Base):
         findAll = session.query(Empregado).all()
         empregadoList = []
         for employee in findAll:
-            empregadoList.append(employee.dict())
+            empregadoList.append(employee.dict(employee))
         return empregadoList
 
     def listToDict(self,lst):
@@ -57,7 +57,12 @@ class Empregado(Base):
         return listEmployee
 
     def findByID(self,session, id):
-        return session.query(Empregado).get(id)
+        emp = session.query(Empregado).get(id)
+        if emp:
+            empDict = emp.dict(emp)
+            return empDict 
+        else:
+            return None
 
     def findFirst(self,session):
         firstRegister = session.query(Empregado).first()
@@ -72,4 +77,5 @@ Session = sessionmaker(bind=conn)
 session = Session()
 c = Empregado(nome='outroTeste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
 c1 = Empregado(nome='Teste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
-c.retrieveAll(session)
+
+print(c.findByID(session,2))
