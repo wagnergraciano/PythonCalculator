@@ -45,15 +45,11 @@ class Empregado(Base):
             empregadoList.append(employee.dict(employee))
         return empregadoList
 
-    def listToDict(self,lst):
-        op = { i : lst[i] for i in range(0, len(lst) ) }
-        return op
-
     def findByName(self,session, name):
         findAllByName = session.query(Empregado).filter_by(nome=name).all()
         listEmployee =[]
         for findName in findAllByName:
-            listEmployee.append(findName)
+            listEmployee.append(findName.dict(findName))
         return listEmployee
 
     def findByID(self,session, id):
@@ -77,5 +73,3 @@ Session = sessionmaker(bind=conn)
 session = Session()
 c = Empregado(nome='outroTeste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
 c1 = Empregado(nome='Teste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
-
-print(c.findByID(session,2))

@@ -20,6 +20,24 @@ class EmpregadoAPI(Resource):
         rst = f.retrieveAll(self.session)
         rstJson = json.loads(json.dumps(rst))
         return jsonify(rst)
+    
+    def post(self):
+        empJson = request.get_json()
+        emp = json.loads(empJson)
+        # employee = Empregado()
+        # employee.nome = emp["nome"]
+        # employee.sexo = emp["sexo"]
+        # employee.idade = emp["idade"]
+        # employee.data_criacao = emp["data_criacao"]
+        # employee.salario = emp["salario"]
+        # employee.insert(self.session,employee)
+        print(emp)
+        return jsonify({'sucesso': True})
+        # rst = employee.insert(self.session,employee)
+        # if rst:
+        #     return jsonify({'sucesso': True})
+        # else:
+        #     return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha'}) 
 
 class EmpregadoAPIid(Resource):
     session = Session()
@@ -32,12 +50,19 @@ class EmpregadoAPIid(Resource):
         else:
             return jsonify({'inlist': False}) 
 
-    # def delete(self, elemento):
-    #     if elemento in lista:
-    #         lista.remove(elemento)
-    #         return jsonify({'sucesso': True})
-    #     else:
-    #         return jsonify({'sucesso': False, 'mensagem':elemento+'nao esta na lista'}) 
+    def delete(self, id):
+        f = Empregado()
+        emp = f.findByID(self.session,id)
+        if emp:
+            f.delete(self.session,id)
+            return jsonify({'sucesso': True})
+            # rst = f.delete(self.session,id)
+            # if rst:
+            #     return jsonify({'sucesso': True})
+            # else:
+            #     return jsonify({'sucesso': False})
+        else:
+            return jsonify({'sucesso': False, 'mensagem':id+'nao esta na lista'}) 
 
 api.add_resource(EmpregadoAPI, '/empregado')
 api.add_resource(EmpregadoAPIid, '/empregado/<id>')
