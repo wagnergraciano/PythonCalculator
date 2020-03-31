@@ -22,17 +22,19 @@ class EmpregadoAPI(Resource):
         return jsonify(rst)
     
     def post(self):
-        empJson = request.get_json()
-        emp = json.loads(empJson)
-        # employee = Empregado()
-        # employee.nome = emp["nome"]
-        # employee.sexo = emp["sexo"]
-        # employee.idade = emp["idade"]
-        # employee.data_criacao = emp["data_criacao"]
-        # employee.salario = emp["salario"]
-        # employee.insert(self.session,employee)
-        print(emp)
-        return jsonify({'sucesso': True})
+        emp = request.get_json()
+        transaction_keys = ['nome' , 'sexo', 'idade', 'data_criacao', 'salario']
+        if not all (key in emp for key in transaction_keys):
+            return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha, parametros incompletos'}, 400)
+        else:
+            employee = Empregado()
+            employee.nome = emp["nome"]
+            employee.sexo = emp["sexo"]
+            employee.idade = emp["idade"]
+            employee.data_criacao = emp["data_criacao"]
+            employee.salario = emp["salario"]
+            employee.insert(self.session,employee)
+            return jsonify({'sucesso': True})
         # rst = employee.insert(self.session,employee)
         # if rst:
         #     return jsonify({'sucesso': True})
