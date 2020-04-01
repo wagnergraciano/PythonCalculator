@@ -23,6 +23,7 @@ class EmpregadoAPI(Resource):
     
     def post(self):
         emp = request.get_json()
+        # test = json.loads(emp)
         transaction_keys = ['nome' , 'sexo', 'idade', 'data_criacao', 'salario']
         if not all (key in emp for key in transaction_keys):
             return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha, parametros incompletos'}, 400)
@@ -65,6 +66,22 @@ class EmpregadoAPIid(Resource):
             #     return jsonify({'sucesso': False})
         else:
             return jsonify({'sucesso': False, 'mensagem':id+'nao esta na lista'}) 
+    
+    def put(self, id):
+        emp = request.get_json()
+        # test = json.loads(emp)
+        transaction_keys = ['nome' , 'sexo', 'idade', 'data_criacao', 'salario']
+        if not all (key in emp for key in transaction_keys):
+            return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha, parametros incompletos'}, 400)
+        else:
+            employee = Empregado()
+            employee.nome = emp["nome"]
+            employee.sexo = emp["sexo"]
+            employee.idade = emp["idade"]
+            employee.data_criacao = emp["data_criacao"]
+            employee.salario = emp["salario"]
+            employee.update(self.session,id,employee.nome,employee.sexo,employee.idade,employee.data_criacao,employee.salario)
+            return jsonify({'sucesso': True})
 
 api.add_resource(EmpregadoAPI, '/empregado')
 api.add_resource(EmpregadoAPIid, '/empregado/<id>')

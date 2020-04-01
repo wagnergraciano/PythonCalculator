@@ -27,6 +27,15 @@ class Empregado(Base):
     def insert(self,session,employee):
         session.add(employee)
         session.commit()
+
+    def update(self,session,id,nome,sexo,idade,data_criacao,salario):
+        user = session.query(Empregado).get(id)
+        user.nome = nome
+        user.sexo = sexo
+        user.idade - idade
+        user.data_criacao = data_criacao
+        user.salario = salario
+        session.commit()
     
     def updateName(self,session, id, newName):
         user = session.query(Empregado).get(id)
