@@ -16,72 +16,43 @@ api = Api(app)
 class EmpregadoAPI(Resource):
     session = Session()
     def get(self):
-        f = Empregado()
-        rst = f.retrieveAll(self.session)
-        rstJson = json.loads(json.dumps(rst))
-        return jsonify(rst)
+        f = Empregado.retrieveAll()
+        return jsonify(f)
     
     def post(self):
         emp = request.get_json()
-        # test = json.loads(emp)
         transaction_keys = ['nome' , 'sexo', 'idade', 'data_criacao', 'salario']
         if not all (key in emp for key in transaction_keys):
             return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha, parametros incompletos'}, 400)
         else:
-            employee = Empregado()
-            employee.nome = emp["nome"]
-            employee.sexo = emp["sexo"]
-            employee.idade = emp["idade"]
-            employee.data_criacao = emp["data_criacao"]
-            employee.salario = emp["salario"]
-            employee.insert(self.session,employee)
+            Empregado.insert(**emp)
             return jsonify({'sucesso': True})
-        # rst = employee.insert(self.session,employee)
-        # if rst:
-        #     return jsonify({'sucesso': True})
-        # else:
-        #     return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha'}) 
 
 class EmpregadoAPIid(Resource):
     session = Session()
     def get(self,id):
-        f = Empregado()
-        emp = f.findByID(self.session,id)
+        emp = Empregado.query().get(id)
         if emp:
-            empJson = json.loads(json.dumps(emp))
-            return jsonify({'inlist': True},empJson)
+            return jsonify({'inlist': True},emp.dict())
         else:
             return jsonify({'inlist': False}) 
 
     def delete(self, id):
-        f = Empregado()
-        emp = f.findByID(self.session,id)
+        emp = Empregado.query().get(id)
         if emp:
-            f.delete(self.session,id)
+            emp.delete()
             return jsonify({'sucesso': True})
-            # rst = f.delete(self.session,id)
-            # if rst:
-            #     return jsonify({'sucesso': True})
-            # else:
-            #     return jsonify({'sucesso': False})
-        else:
-            return jsonify({'sucesso': False, 'mensagem':id+'nao esta na lista'}) 
+        return 404
     
     def put(self, id):
         emp = request.get_json()
-        # test = json.loads(emp)
-        transaction_keys = ['nome' , 'sexo', 'idade', 'data_criacao', 'salario']
-        if not all (key in emp for key in transaction_keys):
-            return jsonify({'sucesso': False, 'mensagem': 'ocorreu uma falha, parametros incompletos'}, 400)
-        else:
-            employee = Empregado()
-            employee.nome = emp["nome"]
-            employee.sexo = emp["sexo"]
-            employee.idade = emp["idade"]
-            employee.data_criacao = emp["data_criacao"]
-            employee.salario = emp["salario"]
-            employee.update(self.session,id,employee.nome,employee.sexo,employee.idade,employee.data_criacao,employee.salario)
+        e = Empregado.query().get(id)
+        if e:
+            e.update(**emp)
             return jsonify({'sucesso': True})
+        return 404
+        # Empregado.update(id,**emp)
+        # return jsonify({'sucesso': True})
 
 api.add_resource(EmpregadoAPI, '/empregado')
 api.add_resource(EmpregadoAPIid, '/empregado/<id>')

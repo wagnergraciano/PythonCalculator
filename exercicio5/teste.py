@@ -121,7 +121,8 @@ from sqlalchemy import create_engine,update,delete
 from sqlalchemy.orm import sessionmaker
 conn = create_engine("mysql://root:@localhost/desafio-dev-2020")
 Session = sessionmaker(bind=conn)
-
+#instancia uma classe fabrica
 session = Session()
+
 c = Empregado(nome='outroTeste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
 c1 = Empregado(nome='Teste', sexo='m', idade= '22', data_criacao= '2020-03-18 14:04:02', salario= '3000')
